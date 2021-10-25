@@ -1,11 +1,18 @@
 @import '~bootstrap/scss/bootstrap';
 @import 'https://fonts.googleapis.com/css?family=Share+Tech+Mono';
 
-.container {
+body {
   padding-top: 100px;
+  background-color: #5481bb;
+}
+
+.container {
+  padding: 2px;
   display: flex;
+  width: 460px;
   justify-content: center;
   align-items: center;
+  background-color: black;
 }
 
 .grid {
@@ -13,12 +20,12 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas:
-    'dis dis dis dis'
-    'AC C div times'
-    'seven eight nine minus'
-    'four five six plus'
-    'one two three equal'
-    'zero zero dot equal';
+    'display display display display'
+    'clear backspace divide multiply'
+    'seven eight nine subtract'
+    'four five six add'
+    'one two three equals'
+    'zero zero decimal equals';
 }
 
 .padButton {
@@ -26,17 +33,17 @@
   justify-content: center;
   align-items: center;
   padding: 20px 40px;
-  background-color: grey;
+  background-color: gray;
   color: white;
   border: 1px solid black;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 30px;
   font-family: Share Tech Mono, sans;
 }
 
 .padButton:hover {
   border: 1px solid white;
-  color:#ccc;
+  color: white;
 }
 
 .dark-grey {
@@ -51,30 +58,56 @@
   background-color: #1919d4;
 }
 
-.dis {
-  grid-area: dis;
+.green {
+  background-color: #31af25;
+}
+
+.display {
+  grid-area: display;
   background-color: black;
   text-align: right;
   font-size: 20px;
 }
 
-.dis input {
-  width: 100%;
+.expression {
   color: white;
   padding: 5px 20px;
-  text-align: right;
   background-color: black;
+  height: 40px;
 }
 
-.total {
+.answer {
   padding: 5px 20px;
-  color: #ffe600;
+  color: #f6f345;
+  font-size: 30px;
 }
 
 .zero {
   grid-area: zero;
 }
 
-.equal {
-  grid-area: equal;
+.equals {
+  grid-area: equals;
+}
+
+.button {
+  position: relative;
+  color: white;
+  transition-duration: 0.3s;
+  overflow: hidden;
+}
+
+.button:after {
+  content: '';
+  background-color: #5e3c74;
+  position: absolute;
+  padding-top: 500%;
+  padding-left: 500%;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.button:active:after {
+  opacity: 0.4;
+  transition: 0s;
 }
