@@ -9,68 +9,65 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackspace } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
-  const [expression, setExpression] = useState('');
-  const [answer, setAnswer] = useState(0);
+  const [answer, setAnswer] = useState('0');
 
   const display = (symbol) => {
     let s = symbol;
-    setExpression((prev) => {
-      if (/[-+*/]/.test(s) && /[-+*/]/.test(prev[prev.length - 1])) {
-        let current;
-        if (/[-]/.test(s)) {
-          current = prev.slice().concat(s);
-        } else {
-          let count = 0;
-          for (let i = 0; i < prev.length; i += 1) {
-            if (Number.isNaN(+prev[i])) {
-              count += 1;
-            } else {
-              count = 0;
+    const maxLength = 20;
+    if (answer.length > maxLength) {
+      const prevAnswer = answer;
+      setAnswer('DIGIT LIMIT MET');
+      setTimeout(() => setAnswer(prevAnswer), 1000);
+    } else {
+      setAnswer((prev) => {
+        if (/[-+*/]/.test(s) && /[-+*/]/.test(prev[prev.length - 1])) {
+          let current;
+          if (/[-]/.test(s)) {
+            current = prev.slice().concat(s);
+          } else {
+            let count = 0;
+            for (let i = 0; i < prev.length; i += 1) {
+              if (Number.isNaN(+prev[i])) {
+                count += 1;
+              } else {
+                count = 0;
+              }
             }
+            current = prev.slice(0, -count).concat(s);
           }
-          current = prev.slice(0, -count).concat(s);
+          setAnswer(current);
+        } else {
+          const last = `${prev}`.split(/[-+*/]/g).at(-1);
+          if (!Number.isNaN(last) && /[.]/.test(last) && symbol === '.') {
+            console.log('symbol = empty');
+            s = '';
+          }
+          setAnswer((prev + s).replace(/^0/g, '').replace(/\.+/g, '.'));
         }
-        setExpression(current);
-      } else {
-        const last = `${prev}`.split(/[-+*/]/g).at(-1);
-        if (!Number.isNaN(last) && /[.]/.test(last) && symbol === '.') {
-          console.log('symbol = empty');
-          s = '';
-        }
-
-        setExpression((prev + s).replace(/^0/g, '').replace(/\.+/g, '.'));
-      }
-    });
-
-    setAnswer((prev) => (prev + s).replace(/^0/g, '').replace(/\.+/g, '.'));
+      });
+    }
   };
 
   const calculate = () => {
     try {
-      const result = eval(expression);
-      setAnswer(result);
-      setExpression(result);
+      setAnswer(eval(answer));
     } catch (error) {
-      console.error(`Invalid expression: ${expression}`);
+      console.error(`Invalid expression: ${answer}`);
     }
   };
 
   const clear = () => {
-    setExpression('');
     setAnswer(0);
   };
+
   const backspace = () => {
-    setExpression((prev) => `${prev}`.slice(0, -1));
-    setAnswer(0);
+    setAnswer((prev) => `${prev}`.slice(0, -1));
   };
 
   return (
     <div className="container">
       <div className="grid">
         <div className="display">
-          <div id="expression" className="expression">
-            {expression}
-          </div>
           <div id="display" className="answer">
             {answer}
           </div>

@@ -4,10 +4,12 @@
 body {
   padding-top: 100px;
   background-color: #5481bb;
+  font-family: Share Tech Mono, sans;
+  font-size: 30px;
 }
 
 .container {
-  padding: 2px;
+  padding: 1px;
   display: flex;
   width: 460px;
   justify-content: center;
@@ -37,8 +39,6 @@ body {
   color: white;
   border: 1px solid black;
   cursor: pointer;
-  font-size: 30px;
-  font-family: Share Tech Mono, sans;
 }
 
 .padButton:hover {
@@ -63,23 +63,17 @@ body {
 }
 
 .display {
+  padding-top: 10px;
   grid-area: display;
   background-color: black;
   text-align: right;
-  font-size: 20px;
-}
-
-.expression {
-  color: white;
-  padding: 5px 20px;
-  background-color: black;
-  height: 40px;
 }
 
 .answer {
   padding: 5px 20px;
   color: #f6f345;
-  font-size: 30px;
+  font-size: 36px;
+  width: 456px;
 }
 
 .zero {
