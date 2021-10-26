@@ -47,6 +47,8 @@ function App() {
         }
       });
     }
+    // clear focus because of function firing 2x onKeyDown after onClick
+    document.activeElement.blur();
   };
 
   const calculate = () => {
@@ -55,17 +57,24 @@ function App() {
     } catch (error) {
       console.error(`Invalid expression: ${answer}`);
     }
+    // clear focus because of function firing 2x onKeyDown after onClick
+    document.activeElement.blur();
   };
 
   const clear = () => {
     setAnswer(0);
+
+    // clear focus because of function firing 2x onKeyDown after onClick
+    document.activeElement.blur();
   };
 
   const backspace = () => {
     setAnswer((prev) => `${prev}`.slice(0, -1));
+
+    // clear focus because of function firing 2x onKeyDown after onClick
+    document.activeElement.blur();
   };
 
-  // FIXME triggers 2x after mouse click
   const handleKeyDown = (e) => {
     switch (e.keyCode) {
       case 48: // 0
