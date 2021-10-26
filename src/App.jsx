@@ -3,7 +3,7 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable operator-linebreak */
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackspace } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,7 @@ function App() {
   const [answer, setAnswer] = useState('0');
 
   const display = (symbol) => {
+    console.log('in display');
     let s = symbol;
     const maxLength = 20;
     if (answer.length > maxLength) {
@@ -64,6 +65,107 @@ function App() {
     setAnswer((prev) => `${prev}`.slice(0, -1));
   };
 
+  // FIXME triggers 2x after mouse click
+  const handleKeyDown = (e) => {
+    switch (e.keyCode) {
+      case 48: // 0
+      case 96: // num0
+        display('0');
+        break;
+      case 49: // 1
+      case 97: // num1
+        display('1');
+        break;
+      case 50: // 2
+      case 98: // num2
+        display('2');
+        break;
+      case 51: // 3
+      case 99: // num3
+        display('3');
+        break;
+      case 52: // 4
+      case 100: // num4
+        display('4');
+        break;
+      case 53: // 5
+      case 101: // num5
+        display('5');
+        break;
+      case 54: // 6
+      case 102: // num6
+        display('6');
+        break;
+      case 55: // 7
+      case 103: // num7
+        display('7');
+        break;
+      case 56: // 8
+      case 104: // num8
+        display('8');
+        break;
+      case 57: // 9
+      case 105: // num9
+        display('9');
+        break;
+      case 106: // num*
+        display('*');
+        break;
+      case 171: // +
+      case 107: // num+
+        display('+');
+        break;
+      case 173: // -
+      case 109: // num-
+        display('-');
+        break;
+      case 111: // num/
+        display('/');
+        break;
+      case 190: // .
+      case 188: // ,
+      case 110: // num, decimal point
+        display('.');
+        break;
+      case 13: // enter
+        calculate();
+        break;
+      case 8: // backspace
+        backspace();
+        break;
+      case 46: // delete
+      case 67: // c
+        clear();
+        break;
+      default:
+      // do nothing
+    }
+
+    if (e.shiftKey) {
+      console.log('shift pressed');
+      switch (e.keyCode) {
+        case 171: // shift + 171: *
+          display('*');
+          break;
+        case 55: // shift + 55: /
+          display('/');
+          break;
+        case 48: // shift + 48: =
+          calculate();
+          break;
+        default:
+        // do nothing
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
   return (
     <div className="container">
       <div className="grid">
@@ -77,7 +179,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={clear}
-          onKeyPress={clear}
+          onKeyDown={handleKeyDown}
           className="padButton clear red button"
         >
           C
@@ -87,7 +189,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={backspace}
-          onKeyPress={backspace}
+          onKeyDown={handleKeyDown}
           className="padButton backspace red button"
         >
           <span id="backspace-icon">
@@ -99,7 +201,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('/')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton divide green button"
         >
           /
@@ -109,7 +211,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('*')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton multiply green button"
         >
           *
@@ -119,7 +221,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('7')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton seven dark-grey button"
         >
           7
@@ -129,7 +231,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('8')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton eight dark-grey button"
         >
           8
@@ -139,7 +241,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('9')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton nine dark-grey button"
         >
           9
@@ -149,7 +251,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('-')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton subtract green button"
         >
           -
@@ -159,7 +261,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('4')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton four dark-grey button"
         >
           4
@@ -169,7 +271,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('5')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton five dark-grey button"
         >
           5
@@ -179,7 +281,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('6')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton six dark-grey button"
         >
           6
@@ -189,7 +291,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('+')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton add green button"
         >
           +
@@ -199,7 +301,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('1')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton one dark-grey button"
         >
           1
@@ -209,7 +311,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('2')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton two dark-grey button"
         >
           2
@@ -219,7 +321,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('3')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton three dark-grey button"
         >
           3
@@ -229,7 +331,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={calculate}
-          onKeyPress={calculate}
+          onKeyDown={handleKeyDown}
           className="padButton equals blue button"
         >
           =
@@ -239,7 +341,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('0')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton zero dark-grey button"
         >
           0
@@ -249,7 +351,7 @@ function App() {
           role="button"
           tabIndex="0"
           onClick={() => display('.')}
-          onKeyPress={display}
+          onKeyDown={handleKeyDown}
           className="padButton decimal dark-grey button"
         >
           .
